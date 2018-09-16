@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Rock, Paper, Scissors: Live!</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>    
+
+</head>
+<body>
+    <div class="jumbotron rps-jumbotron">
+        <div class="container">
+            <h1 class="text-center mb-5">Rock, Paper, Scissor - Live!</h1>
+            <div class="row mb-5">
+                <div class="col-8 mx-auto">
+                    <div class="row">
+                        <div class="col-5">
+                            <img src="assets/images/SVG/rock-left.svg" class="img-fluid" alt="display img">
+                        </div>
+                        <div class="offset-2 col-5">
+                            <img src="assets/images/SVG/scissor-right.svg" class="img-fluid" alt="display img">
+                        </div>
+                    </div>
+                    <div class="moves-display d-flex justify-content-between">
+                    </div>
+                </div>
+            </div>
+            <div id="game-instructions" class="text-center"><h3>Welcome Player 1, waiting for another player to join.</h3></div>
+            <div id="game-statistics">
+                <ul>
+                    <li>Player 1 wins: <span id="player-1-wins">4</span></li>
+                    <li>Total Games played: <span id="games-played">8</span></li>
+                    <li>Player 2 wins: <span id="player-2-wins">4</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <div class="btn-move-group">
+                        <button id="rock" class="btn btn-secondary btn-lg btn-move" data-move="r">Rock</button>
+                        <button id="paper"class="btn btn-secondary btn-lg btn-move" data-move="p">Paper</button>
+                        <button id="scissor" class="btn btn-secondary btn-lg btn-move" data-move="s">Scissor</button>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <h2>Chatbox to go here</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

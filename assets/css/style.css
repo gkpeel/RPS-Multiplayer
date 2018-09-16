@@ -1,0 +1,25 @@
+.rps-jumbotron {
+    position: relative;
+}
+
+#game-statistics {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#game-statistics ul {
+    display: flex;
+    justify-content: space-around;
+}
+#game-statistics ul li {
+    list-style-type: none;
+}
+
+.btn-move-group button {
+    display: block;
+    max-width: 75%;
+    min-width: 75%;
+    margin: 1rem auto;
+}
