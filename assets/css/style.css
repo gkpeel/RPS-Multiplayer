@@ -2,6 +2,15 @@
     position: relative;
 }
 
+#moves-display img, #moves-display h3 {
+    display: block;
+}
+
+#start {
+    display: block;
+    width: 100%;
+}
+
 #game-statistics {
     position: absolute;
     bottom: 0;
