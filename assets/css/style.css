@@ -1,5 +1,16 @@
+
+body {
+    color: #0F0E07;
+}
+
 .rps-jumbotron {
     position: relative;
+
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#edd76c+32,d3b383+89&1+0,0.9+63,0.85+89 */
+    background: -moz-radial-gradient(center, ellipse cover, rgba(237,215,108,1) 0%, rgba(237,215,108,0.95) 32%, rgba(223,195,121,0.9) 63%, rgba(211,179,131,0.85) 89%); /* FF3.6-15 */
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(237,215,108,1) 0%,rgba(237,215,108,0.95) 32%,rgba(223,195,121,0.9) 63%,rgba(211,179,131,0.85) 89%); /* Chrome10-25,Safari5.1-6 */
+    background: radial-gradient(ellipse at center, rgba(237,215,108,1) 0%,rgba(237,215,108,0.95) 32%,rgba(223,195,121,0.9) 63%,rgba(211,179,131,0.85) 89%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#edd76c', endColorstr='#d9d3b383',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
 #moves-display img, #moves-display h3 {
@@ -28,7 +39,24 @@
 
 .btn-move-group button {
     display: block;
-    max-width: 75%;
-    min-width: 75%;
     margin: 1rem auto;
+    width: 100%;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #c5853c;
+    border-color: #c5853c;
+}
+
+.btn-secondary.disabled {
+    color: #fff;
+    background-color: #c5853c;
+    border-color: #c5853c;
+}
+
+.btn-secondary:hover {
+    color: #fff;
+    background-color: #a8702f;
+    border-color: #a8702f;
 }

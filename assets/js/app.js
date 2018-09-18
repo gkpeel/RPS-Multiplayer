@@ -302,7 +302,7 @@ database.ref().on('value', function(snapshot){
         setTimeout(function(){
             $("#game-instructions").html("<h3>Pick again</h3>");
             $("#moves-display").text("");
-        }, 2000);
+        }, 3000);
     }
     
     // Refresh the displayed game stats on any update
