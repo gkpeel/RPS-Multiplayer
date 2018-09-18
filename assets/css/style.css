@@ -5,7 +5,7 @@ body {
 
 .rps-jumbotron {
     position: relative;
-
+    
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#edd76c+32,d3b383+89&1+0,0.9+63,0.85+89 */
     background: -moz-radial-gradient(center, ellipse cover, rgba(237,215,108,1) 0%, rgba(237,215,108,0.95) 32%, rgba(223,195,121,0.9) 63%, rgba(211,179,131,0.85) 89%); /* FF3.6-15 */
     background: -webkit-radial-gradient(center, ellipse cover, rgba(237,215,108,1) 0%,rgba(237,215,108,0.95) 32%,rgba(223,195,121,0.9) 63%,rgba(211,179,131,0.85) 89%); /* Chrome10-25,Safari5.1-6 */

@@ -1,4 +1,4 @@
-// Initialize Firebase
+// Initialize Firebase //
 var config = {
     apiKey: "AIzaSyAy3sFOQIVj3yVVeBBOC_v1uAX79g2mDAg",
     authDomain: "rps-multiplayer-17bba.firebaseapp.com",
@@ -11,12 +11,13 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 
-// GAME OBJECT
+// GAME OBJECT //
 var rpsGame = {
+
+    // === RPS VARIABLES === //
     gameReady: false,
     gamesPlayed: 0,
     player: "",
-    gameMessage: "",
 
     player1: {
         set: false,
@@ -28,6 +29,7 @@ var rpsGame = {
             scissor: '<img class="img-fluid" src="assets/images/SVG/scissor-left.svg"/>',
         }
     },
+    
     player2: {
         set: false,
         wins: 0,
@@ -39,6 +41,8 @@ var rpsGame = {
         }
     },
 
+    // === RPS METHODS === //
+    // Using terminal's assigned "player" value as reference, updates wins on Firebase
     addWin: function(winner) {
         this[winner].wins++;
             database.ref(winner).update({
@@ -46,6 +50,7 @@ var rpsGame = {
             });
     },
 
+    // Resets user data for the next round, and so continuous loop with Fb doesn't occur
     clearData: function() {
         database.ref('player1').update({
             move: ""
@@ -55,9 +60,9 @@ var rpsGame = {
         });
     },
 
+    // Uses btn-move's data-move attr, and the player val to display the correct word/image combo
     displayMove: function(val) {
 
-        //displays user's move to that user
         if (val === "r") {
             $("#moves-display").html(this[this.player].images.rock + '<h3>You chose: Rock</h3>');
         }
@@ -70,6 +75,7 @@ var rpsGame = {
 
     },
 
+    // Updates game's statistic's section with current values when called
     displayStats: function() {
         $("#games-played").text(this.gamesPlayed);
         if (this.player === "player1") {
@@ -81,6 +87,7 @@ var rpsGame = {
         }
     },
 
+    // From takes parameter from rpsRound() and creates personalized Game outcome message
     gameUpdate: function(winner) {
 
         if (winner !== 'tie') {
@@ -110,6 +117,7 @@ var rpsGame = {
 
     },
 
+    // Resets database (and in turn all game values) when called
     newGame: function() {
         database.ref().set({
 
@@ -129,6 +137,7 @@ var rpsGame = {
         });
     },
 
+    // Standard RPS game logic based on ties and one player's winning outcomes
     rpsRound: function() {
 
         if (this.player1.currentMove === this.player2.currentMove) {
@@ -158,7 +167,9 @@ var rpsGame = {
         });
         
     },
-                        
+    
+    // Takes a firebase.database.val() parameter, see's if Fb's player1.set/player2. set val is true
+    // Assigns player val locally and sets Fb's playerX.set value to true accordingly
     setPlayer: function(snapshot) {
 
         // if two players are already playing, disable buttons
@@ -196,12 +207,14 @@ var rpsGame = {
         });
     },
 
+    // Sends data to Fb about the player's move using their player value, updates locally with db value event listener
     updateMove: function(val) {
         database.ref(this.player).update({
             move: val
         });
     },
 
+    // Takes data-move's attr val and creates appropriate output
     val2word: function(val) {
         if (val === "r") {
             return "Rock";
@@ -212,6 +225,7 @@ var rpsGame = {
         }
     },
 
+    // Welcome message to users depending on their Player #
     welcome: function() {
         if (this.player === "player1") {
             $("#game-instructions").html('<h3>Welcome, Player 1. Waiting for Player 2.</h3>');
@@ -227,13 +241,18 @@ $(document).ready(function(){
 
     // Assign to Player1 or Player2, reveal Game-move buttons
     $("#start").on('click', function(){
-        database.ref().once('value').then(function(snapshot){
-            rpsGame.setPlayer(snapshot.val());
-        });
-        $("#start, .start-container, #rock, #paper, #scissor").toggleClass('d-none');
+        if (!rpsGame.gameReady) {
+            database.ref().once('value').then(function(snapshot){
+                rpsGame.setPlayer(snapshot.val());
+            });
+            $("#start, .start-container, #rock, #paper, #scissor").toggleClass('d-none');
+        } else {
+            $("#start").addClass('d-none');
+            $("#game-instructions").html("<h3>Two people are already playing come back again later.</h3>")
+        }
     });
 
-    //Assign player move to local variable, update firebase
+    //Assign move to player's proprt Fb variable, updates locally through listener
     $(".btn-move").on("click", function() {
         $("#game-instructions").text("");
         var moveVal = $(this).attr('data-move');
@@ -245,15 +264,16 @@ $(document).ready(function(){
 
 });
 
-// blunt db reset on: refresh/exit
+// blunt Fb reset on: refresh/exit
 $(window).on("unload", function(){
     rpsGame.newGame();
 })
 
-// Database listener:
-// Listens for firebase value changes and updates all local variables
-database.ref().on('value', function(snapshot){
 
+// Database listener:
+database.ref().on('value', function(snapshot){
+    
+    // Listens for any firebase value changes and updates all local variables
     rpsGame.gameReady = snapshot.val().gameReady;
     rpsGame.gamesPlayed = snapshot.val().gamesPlayed;
 
@@ -266,7 +286,8 @@ database.ref().on('value', function(snapshot){
     rpsGame.player1.wins = snapshot.val().player1.wins;
     rpsGame.player2.wins = snapshot.val().player2.wins;
 
-    // If two players are set, update player1 game-instructions
+
+    // If two players are set, update player1's game-instructions
     // 2s later: disabled classes get removed from buttons and players are prompted to play
     // gameReady changes to true so that this doesn't display on subsequent data refreshes
     if (snapshot.val().player1.set && snapshot.val().player2.set && !snapshot.val().gameReady) {
@@ -296,9 +317,11 @@ database.ref().on('value', function(snapshot){
     //     }
     // }
 
-    // If each player submits a move, check the outcome of those moves
+    // If on the latest data refresh each playerX.move has a non-blank value, check the outcome of those moves 
     if (snapshot.val().player1.move !== "" && snapshot.val().player2.move !== "") {
         rpsGame.rpsRound();
+
+        // Wait 3s to clear #moves-display and prompt another round
         setTimeout(function(){
             $("#game-instructions").html("<h3>Pick again</h3>");
             $("#moves-display").text("");
