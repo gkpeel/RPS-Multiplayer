@@ -239,6 +239,11 @@ var rpsGame = {
 
 $(document).ready(function(){
 
+    if (rpsGame.player1.set && rpsGame.player2.set) {
+        $("#start").addClass('d-none');
+        $("#game-instructions").html("<h3>Two people are already playing come back again later.</h3>")
+    }
+
     // Assign to Player1 or Player2, reveal Game-move buttons
     $("#start").on('click', function(){
         if (!rpsGame.gameReady) {
@@ -301,31 +306,30 @@ database.ref().on('value', function(snapshot){
         database.ref().update({gameReady: true});
     }
 
-    // if (snapshot.val().player1.move !== "" || snapshot.val().player2.move !== "") {
-    //     if (snapshot.val().player1.move !== "") {
-    //         if (rpsGame.player === "player1") {
-    //             $("#game-instructions").html("<h3>Waiting for Player 2</h3>");
-    //         } else {
-    //             $("#game-instructions").html("<h3>Player 1 selected. Waiting on you</h3>");
-    //         }
-    //     } else {
-    //         if (rpsGame.player === "player2") {
-    //             $("#game-instructions").html("<h3>Waiting for Player 1</h3>");
-    //         } else {
-    //             $("#game-instructions").html("<h3>Player 2 selected. Waiting on you</h3>");
-    //         }
-    //     }
-    // }
-
     // If on the latest data refresh each playerX.move has a non-blank value, check the outcome of those moves 
     if (snapshot.val().player1.move !== "" && snapshot.val().player2.move !== "") {
         rpsGame.rpsRound();
+        $("#game-instructions").html("");
 
         // Wait 3s to clear #moves-display and prompt another round
         setTimeout(function(){
-            $("#game-instructions").html("<h3>Pick again</h3>");
             $("#moves-display").text("");
+            $("#game-instructions").html("<h3>Pick again</h3>");
         }, 3000);
+    } else if (snapshot.val().player1.move !== "" || snapshot.val().player2.move !== "") {
+        if (snapshot.val().player1.move !== "") {
+            if (rpsGame.player === "player1") {
+                $("#game-instructions").html("<h3>Waiting for Player 2</h3>");
+            } else {
+                $("#game-instructions").html("<h3>Player 1 selected. Waiting on you</h3>");
+            }
+        } else {
+            if (rpsGame.player === "player2") {
+                $("#game-instructions").html("<h3>Waiting for Player 1</h3>");
+            } else {
+                $("#game-instructions").html("<h3>Player 2 selected. Waiting on you</h3>");
+            }
+        }
     }
     
     // Refresh the displayed game stats on any update
